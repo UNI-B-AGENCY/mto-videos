@@ -22,13 +22,13 @@ jobs:
             if yt-dlp --no-playlist -f "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b" \
                  --merge-output-format mp4 --max-filesize 95M \
                  --write-info-json -o "clips/$id.%(ext)s" "$url" > "clips/$id.log" 2>&1; then
-              echo ok >> "clips/$id.log"
+              echo ok >> "clips/$id.log"; echo "::notice title=$id::OK $(ls -la clips/$id.mp4 2>/dev/null | awk '{print $5}') bytes"
             else
-              echo FAILED >> "clips/$id.log"
+              echo FAILED >> "clips/$id.log"; echo "::error title=$id::$(tail -3 clips/$id.log | tr '\n' ' ' | cut -c1-600)"
             fi
             git rm -q "$q"
           done
       - run: |
           git config user.name "mto-bot"; git config user.email "mto-bot@users.noreply.github.com"
           git add clips queue; git commit -qm "Fetched clips" || exit 0
-          git pull -q --rebase && git push -q
+          git pull -q --rebase && git push -q || { echo "::error title=push::push failed - set Settings > Actions > General > Workflow permissions to Read and write"; exit 1; }
