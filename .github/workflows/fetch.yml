@@ -1,0 +1,34 @@
+name: fetch-clips
+on:
+  push:
+    paths: ['queue/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: fetch
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get -qq update && sudo apt-get -qq install -y ffmpeg && pip install -q -U yt-dlp
+      - name: Download queued links
+        run: |
+          mkdir -p clips
+          shopt -s nullglob
+          for q in queue/*.txt; do
+            id=$(basename "$q" .txt); url=$(head -1 "$q")
+            echo "== $id $url"
+            if yt-dlp --no-playlist -f "bv*[height<=1080][ext=mp4]+ba[ext=m4a]/b[ext=mp4]/b" \
+                 --merge-output-format mp4 --max-filesize 95M \
+                 --write-info-json -o "clips/$id.%(ext)s" "$url" > "clips/$id.log" 2>&1; then
+              echo ok >> "clips/$id.log"
+            else
+              echo FAILED >> "clips/$id.log"
+            fi
+            git rm -q "$q"
+          done
+      - run: |
+          git config user.name "mto-bot"; git config user.email "mto-bot@users.noreply.github.com"
+          git add clips queue; git commit -qm "Fetched clips" || exit 0
+          git pull -q --rebase && git push -q
