@@ -4,7 +4,7 @@ b=sys.argv[1]; meta=json.load(open(f'out/{b}.html.json')); T=meta['total']; FPS=
 fd=f'frames/{b}'; os.makedirs(fd,exist_ok=True)
 with sync_playwright() as p:
     br=p.chromium.launch(); pg=br.new_page(viewport={'width':1080,'height':1920})
-    pg.goto(f'file://'+os.path.abspath('out')+'/{b}.html'); pg.evaluate('document.fonts.ready'); pg.wait_for_timeout(500)
+    pg.goto(f'file://'+os.path.abspath('out')+f'/{b}.html'); pg.evaluate('document.fonts.ready'); pg.wait_for_timeout(500)
     for i in range(int(FPS*T)):
         pg.evaluate(f'setTime({i/FPS})'); pg.screenshot(path=f'{fd}/f{i:05d}.jpg',type='jpeg',quality=90)
     br.close()
