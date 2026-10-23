@@ -1,8 +1,0 @@
-Run push test — 2026-10-23T01:41:16Z (UTC)
-
-Step 1 (add_repo UNI-B-AGENCY/mto-videos, push):
-  No add_repo tool exists in this session. ToolSearch for "add_repo" and "+claude-code-remote repo" returned "No matching deferred tools found". The claude-code-remote server only exposes trigger tools (create/list/update/delete/fire_trigger, send_later). Session scope already lists uni-b-agency/mto-videos.
-
-Step 2 (git clone --depth 1 https://github.com/UNI-B-AGENCY/mto-videos /home/claude/mto-videos):
-  fatal: destination path '/home/claude/mto-videos' already exists and is not an empty directory.
-  (exit 128 — the session's working directory is already a clone of this repo with origin https://github.com/UNI-B-AGENCY/mto-videos; used it instead.)
