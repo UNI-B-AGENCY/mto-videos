@@ -1,0 +1,27 @@
+name: fetch-audio
+on:
+  push:
+    paths: ['audio-queue/**']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency: audio
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download queued audio (ElevenLabs voice-overs)
+        run: |
+          mkdir -p audio
+          shopt -s nullglob
+          for q in audio-queue/*.txt; do
+            id=$(basename "$q" .txt); url=$(head -1 "$q")
+            if curl -fsSL --max-time 120 -o "audio/$id.mp3" "$url"; then echo "::notice title=$id::OK $(stat -c %s audio/$id.mp3) bytes"
+            else echo "FAILED" > "audio/$id.failed"; echo "::error title=$id::download failed"; fi
+            git rm -q "$q"
+          done
+      - run: |
+          git config user.name "mto-bot"; git config user.email "mto-bot@users.noreply.github.com"
+          git add -A; git commit -qm "Fetched audio" || exit 0
+          git pull -q --rebase && git push -q
