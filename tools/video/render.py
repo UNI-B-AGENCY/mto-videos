@@ -44,6 +44,13 @@ for c in meta['cuts']:
 # riser impact at start
 n=int(0.4*SR); tk=np.arange(n)/SR; out[:n]+=0.4*np.sin(2*np.pi*45*tk)*np.exp(-tk*8)
 fo=int(1.5*SR); out[-fo:]*=np.linspace(1,0,fo); out=out/np.max(np.abs(out))*0.7
+vo=f'out/{b}_vo.wav'
+if os.path.exists(vo):  # voice-over present: duck the music under it
+    with wave.open(vo) as w: v=np.frombuffer(w.readframes(w.getnframes()),np.int16).astype(np.float32)/32768
+    v=np.pad(v,(0,max(0,len(out)-len(v))))[:len(out)]
+    env=np.convolve(np.abs(v),np.ones(int(0.25*SR))/int(0.25*SR),'same'); duck=np.where(env>0.01,0.22,0.6)
+    duck=np.convolve(duck,np.ones(int(0.3*SR))/int(0.3*SR),'same')
+    out=out*duck+v*0.95; out=out/np.max(np.abs(out))*0.92
 with wave.open(f'out/{b}.wav','w') as w: w.setnchannels(1); w.setsampwidth(2); w.setframerate(SR); w.writeframes((out*32767).astype(np.int16).tobytes())
 subprocess.run(['ffmpeg','-y','-loglevel','error','-framerate',str(FPS),'-i',f'{fd}/f%05d.jpg','-i',f'out/{b}.wav','-c:v','libx264','-preset','medium','-crf','21','-pix_fmt','yuv420p','-profile:v','high','-c:a','aac','-b:a','160k','-ar','44100','-shortest','-movflags','+faststart',f'out/{b}.mp4'],check=True)
 print(b,'done',os.path.getsize(f'out/{b}.mp4'))
