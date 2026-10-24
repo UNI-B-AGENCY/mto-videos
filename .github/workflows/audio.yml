@@ -1,7 +1,7 @@
-name: fetch-audio
+name: fetch-audio-and-media
 on:
   push:
-    paths: ['audio-queue/**']
+    paths: ['audio-queue/**', 'media-queue/**']
   workflow_dispatch:
 permissions:
   contents: write
@@ -11,17 +11,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Download queued audio (ElevenLabs voice-overs)
+      - name: Download queued files
         run: |
-          mkdir -p audio
+          mkdir -p audio media
           shopt -s nullglob
+          # audio-queue/<name>.txt  -> audio/<name>.mp3   (ElevenLabs voice-overs)
           for q in audio-queue/*.txt; do
             id=$(basename "$q" .txt); url=$(head -1 "$q")
-            if curl -fsSL --max-time 120 -o "audio/$id.mp3" "$url"; then echo "::notice title=$id::OK $(stat -c %s audio/$id.mp3) bytes"
-            else echo "FAILED" > "audio/$id.failed"; echo "::error title=$id::download failed"; fi
+            if curl -fsSL --max-time 120 -o "audio/$id.mp3" "$url"; then echo "::notice title=$id::OK"; else echo FAILED > "audio/$id.failed"; echo "::error title=$id::download failed"; fi
+            git rm -q "$q"
+          done
+          # media-queue/<name.ext>.txt -> media/<name.ext>   (photos, press images, AI images, any public file <= 40 MB)
+          for q in media-queue/*.txt; do
+            f=$(basename "$q" .txt); url=$(head -1 "$q")
+            if curl -fsSL --max-time 120 --max-filesize 41943040 -A "Mozilla/5.0 (mto-media-fetcher)" -o "media/$f" "$url"; then echo "::notice title=$f::OK $(stat -c %s media/$f) bytes"; else echo FAILED > "media/$f.failed"; echo "::error title=$f::download failed"; fi
             git rm -q "$q"
           done
       - run: |
           git config user.name "mto-bot"; git config user.email "mto-bot@users.noreply.github.com"
-          git add -A; git commit -qm "Fetched audio" || exit 0
-          git pull -q --rebase && git push -q
+          git add -A; git commit -qm "Fetched audio/media" || exit 0
+          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 5; done; exit 1
