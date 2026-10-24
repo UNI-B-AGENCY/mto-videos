@@ -24,5 +24,7 @@ jobs:
         if: always()
         run: |
           git config user.name "mto-bot"; git config user.email "mto-bot@users.noreply.github.com"
+          for f in jobs/done/*.json; do echo "::notice title=$(basename $f)::$(head -c 900 $f | tr '\n' ' ')"; done
           git add -A videos jobs; git commit -qm "Rendered video jobs" || exit 0
-          for i in 1 2 3; do git pull -q --rebase && git push -q && exit 0; sleep 5; done; exit 1
+          for i in 1 2 3; do git pull -q --rebase --autostash && git push -q && exit 0; sleep 5; done
+          git status | head -20; exit 1
