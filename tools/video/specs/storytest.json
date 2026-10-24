@@ -1,0 +1,68 @@
+{
+ "name": "storytest",
+ "clip": "/home/claude/mto-videos/videos/dangote-refinery-prepares-major-ipo-to-fund-expansion-20261023-053822.mp4",
+ "clip_start": 0,
+ "credit_short": "Video: africanews / YouTube",
+ "theme": {
+  "name": "MARKET PULSE AFRICA",
+  "tag": "AFRICAN EQUITIES",
+  "logo": "logo/mpa.webp",
+  "font": "montserrat",
+  "acc": "#c99a13",
+  "acc2": "#f2b01e",
+  "kickfg": "#091930"
+ },
+ "scenes": [
+  {
+   "kicker": "Dangote refinery IPO",
+   "head": "Last chance to buy in: closes <span class=a>Tuesday</span>",
+   "dur": 4.99,
+   "media": "bg/mpa_c.jpg",
+   "credit": "Test credit"
+  },
+  {
+   "kicker": "The price",
+   "head": "<span class=a>N525</span> a share. Closes 27 October.",
+   "dur": 6.69,
+   "media": "/home/claude/mto-videos/videos/canals-strategy-to-untangle-dstvs-bloated-offerings-20261023-082919.mp4",
+   "credit": "Test credit",
+   "clip_audio": 0.12,
+   "media_start": 5
+  },
+  {
+   "kicker": "Minimum to get in",
+   "head": "10 shares = <span class=a>N5,250</span>",
+   "dur": 5.99,
+   "media": "bg/afro_c.jpg",
+   "credit": "Test credit",
+   "big": {
+    "to": 5250,
+    "pre": "N"
+   }
+  },
+  {
+   "kicker": "NGX's big claim",
+   "head": "Active investors could grow <span class=a>3 to 5 times</span>",
+   "dur": 7.1,
+   "media": "bg/cbr_c.jpg",
+   "credit": "Test credit"
+  },
+  {
+   "kicker": "Before you buy",
+   "head": "Read the prospectus. You may get <span class=a>fewer shares</span> than you ask for.",
+   "dur": 6.31,
+   "media": "bg/ota_c.jpg",
+   "credit": "Test credit"
+  },
+  {
+   "cta": true,
+   "q": "Are you buying before <span class=a>27 October?</span>",
+   "sub": "Tell us in the comments",
+   "url": "marketpulseafrica.com",
+   "fine": "Not investment advice \u00b7 Video: africanews",
+   "dur": 6.32,
+   "media": "bg/anr_c.jpg",
+   "credit": "Test credit"
+  }
+ ]
+}

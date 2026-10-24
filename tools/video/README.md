@@ -9,3 +9,11 @@ Change layouts, colours and scene order every time; it's a starting point, not a
 2. Narration in the house voice (see above), one line per caption scene, CTA last.
 3. Copy clip-spec-example.json, set clip path, credit_short ("Video: <channel> / <platform>"), captions. `python3 vo.py specs/x.json audio/x.mp3 out/x_vo.wav 1.12` then `OVL_STEP=2 python3 clip.py specs/x.json` → out/x.mp4 (clip framed over a blurred copy, clip audio ducked, captions + CTA, credit always visible).
 4. Put the credit in every caption ("Video: <channel> on YouTube"). Never crop the source watermark. git rm the raw source clip after rendering.
+
+## Story videos (DEFAULT): real images/clips behind every line — `story.py`
+Every scene needs a picture or clip that shows what the line is about (the person, company, product, place, building, document, chart). Text-only animation is not allowed any more.
+1. Find media per scene: official press photos / company newsroom images / government pages (WebSearch), Unsplash connector (search_photos → download_asset gives the URL; credit "Photo: <name> / Unsplash"), news clips via fetch_media (YouTube/TikTok/Instagram), or mto-mcp generate_image only as a last resort (credit "AI image").
+2. The sandbox cannot download images from most sites (proxy 403). Queue them: write the URL into `media-queue/<brand>-<slug>-<n>.jpg.txt`, commit + push, wait ~20 s, git pull → `media/<brand>-<slug>-<n>.jpg`. (Audio: `audio-queue/<name>.txt` → `audio/<name>.mp3`.)
+3. Spec: see the docstring at the top of story.py. Each scene: media, credit (always), kicker, head (with <span class=a>…</span> highlight), optional big counter, pos. Last scene: cta.
+4. `python3 vo.py specs/x.json audio/x.mp3 out/x_vo.wav 1.08` then `python3 story.py specs/x.json` → out/x.mp4 + out/x-cover.jpg. Look at 4–6 frames before posting.
+5. After posting: git rm media/ and audio/ files you used and any raw third-party clip.

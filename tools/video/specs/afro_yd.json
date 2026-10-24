@@ -1,0 +1,65 @@
+{
+ "name": "afro_yd",
+ "theme": {
+  "name": "AFROTECH HORIZON",
+  "tag": "POLICY & REGULATION",
+  "logo": "logo/afro.webp",
+  "font": "montserrat",
+  "acc": "#1fa363",
+  "acc2": "#5be39b",
+  "kickfg": "#ffffff",
+  "bpm": 98
+ },
+ "scenes": [
+  {
+   "media": "/home/claude/mto-videos/media/afro-yd-africa.jpg",
+   "credit": "Image: ostudio / Unsplash",
+   "kicker": "Africa \u00b7 data rules",
+   "head": "Keep <span class=a>100%</span> of critical government data at home by 2030",
+   "pos": "bottom",
+   "dur": 6.06
+  },
+  {
+   "media": "/home/claude/mto-videos/media/afro-yd-chamber.jpg",
+   "credit": "Photo: Neon Wang / Unsplash",
+   "kicker": "The Yaound\u00e9 Declaration",
+   "head": "Adopted in Cameroon on <span class=a>17 October</span>",
+   "pos": "bottom",
+   "dur": 5.49
+  },
+  {
+   "media": "/home/claude/mto-videos/media/afro-yd-racks.jpg",
+   "credit": "Photo: Eric Stoynov / Unsplash",
+   "kicker": "The rule",
+   "head": "Local first. African first. <span class=a>Foreign cloud last.</span>",
+   "pos": "bottom",
+   "dur": 5.34
+  },
+  {
+   "media": "/home/claude/mto-videos/media/afro-yd-cables.jpg",
+   "credit": "Photo: Yuriy Vertikov / Unsplash",
+   "kicker": "What it needs",
+   "head": "Data centres, cloud and <span class=a>shared regional networks</span>",
+   "pos": "bottom",
+   "dur": 5.33
+  },
+  {
+   "media": "/home/claude/mto-videos/media/afro-yd-laptop.jpg",
+   "credit": "Photo: Fotograf\u00eda Editorial / Unsplash",
+   "kicker": "But here's the catch",
+   "head": "No budget. No tenders. <span class=a>No definition</span> of critical data yet.",
+   "pos": "bottom",
+   "dur": 7.79
+  },
+  {
+   "cta": true,
+   "media": "/home/claude/mto-videos/media/afro-yd-flags.jpg",
+   "credit": "Photo: rishi / Unsplash",
+   "q": "Sovereignty or <span class=a>cost</span>: which comes first?",
+   "sub": "Tell us in the comments",
+   "url": "afrotechhorizon.com",
+   "fine": "Source: Business in Cameroon \u00b7 Follow for African tech",
+   "dur": 7.61
+  }
+ ]
+}
